@@ -56,6 +56,7 @@ let p2HP = 100;
 let p1Win = false;
 let p2Win = false;
 let ballSpeed = 100;
+//--- Aim hjälp----
 let p1AimY;
 let p1AimX;
 let p1AimV0;
@@ -63,8 +64,16 @@ let p1AimV0Y;
 let p1AimV0X;
 let p1AimSy;
 let p1AimSx;
+let p2AimY;
+let p2AimX;
+let p2AimV0;
+let p2AimV0Y;
+let p2AimV0X;
+let p2AimSy;
+let p2AimSx;
 
-//-------Irrelevant------------------------------------------
+
+//-------Irrelevant-------------------------------------
 function circle(x, y, r, color) 
 {
   context2D.fillStyle = color;
@@ -94,7 +103,7 @@ function clearScreen()//Clearar skärmen
 {
   context2D.clearRect(0, 0, totalWidth, totalHeight);
 }
-//------------------------------------------------------------
+//------------------------------------------------------
 
 
 let moveP1 = {//Move tomte 1
@@ -128,7 +137,7 @@ context2D.drawImage(tomte, p2X, p2Y);//Ritar ut i början
   	sx = v0Y * t + g*t*t;
 	p2Alpha =((p2Angle/180)*pi);
 	p1Alpha =((p1Angle/180)*pi);
-	p1Angle = 20;
+	p1Angle = 160;
 	p2Angle = 20;
 }
 
@@ -138,7 +147,7 @@ function drawBall(ballObj){
 	ballObj.v0X = cos(ballObj.p2Alpha) * ballObj.v0 * -1;
 	ballObj.v0Y = sin(ballObj.p2Alpha) * ballObj.v0;
 	} else{
-	ballObj.v0X = cos(ballObj.p1Alpha) * ballObj.v0;
+	ballObj.v0X = cos(ballObj.p1Alpha) * ballObj.v0 * -1;
 	ballObj.v0Y = sin(ballObj.p1Alpha) * ballObj.v0;
 	}
 	ballObj.sy = ballObj.v0Y*ballObj.t+(ballObj.g*(ballObj.t*ballObj.t))/2;
@@ -217,7 +226,7 @@ function update()
 	p1AimV0 = ballSpeed;
 	p1Alpha = (((p1Angle - 90)/180)*pi);
 	p1AimV0Y = p1AimV0 * cos(p1Alpha);
-	p1AimV0X = p1AimV0 * sin(p1Alpha) * -1;
+	p1AimV0X = p1AimV0 * sin(p1Alpha);
 	p1AimSy = p1AimV0Y*t2+(g2*t2*t2)/2;
   	p1AimY = totalHeight - p1AimSy;
   	p1AimSx = p1AimV0X*t2;
@@ -251,13 +260,13 @@ function update()
   	circle(p2AimSx + p2AimX + 32, p2AimY -100, 5, "black");//Tomte 1 aim hjälp
 
 	if (p1Win) {
-		context2D.font = "30px Arial";
-		context2D.fillText("Player 1 Wins!!!", 600, 335);
+		context2D.font = "100px Arial";
+		context2D.fillText("Player 1 Wins!!!", 350, 400);
 		clearInterval(theAnimation);
 	}
 	if (p2Win) {
-		context2D.font = "30px Arial";
-		context2D.fillText("Player 2 Wins!!!", 600, 335);
+		context2D.font = "100px Arial";
+		context2D.fillText("Player 2 Wins!!!", 350, 400);
 		clearInterval(theAnimation);
 	}
 }
@@ -363,7 +372,7 @@ document.addEventListener("keydown", function (e) { // Skjuter iväg en projekti
 			p1Alpha: ((p1Angle / 180)* pi),
 			t: 0,
 			v0Y: v0*cos(p1Alpha),
-			v0X: v0*sin(p1Alpha) * -1,
+			v0X: v0*sin(p1Alpha),
 			color: "red"
 		}
 		balls.push(ball);
