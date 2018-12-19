@@ -1,4 +1,7 @@
-
+let player1y;
+let player1g  = -9.82;
+let player1v0 = 40;
+let player1t  = 0;
 //Colors-------------------------
 red       = "rgb(255, 0, 0)";
 green     = "rgb(0, 255, 0)";
@@ -25,7 +28,7 @@ s     = 83;
 d     = 68;
 //-------------------------------
 
-let canvas = document.getElementById("ball");
+let canvas = document.getElementById("game");
 let ctx = canvas.getContext("2d");
 let s2;
 let v;
@@ -40,6 +43,10 @@ let p2Angle;
 let tomte = document.getElementById("tomte");
 let p1Wins = document.getElementById("P1Wins");
 let p2Wins = document.getElementById("P2Wins");
+let tomte1 = document.getElementById("Tomte1");
+let tomte2 = document.getElementById("Tomte2");
+let julkula1 = document.getElementById("Julkula1");
+let julkula2 = document.getElementById("Julkula2");
 let p1X = 200; // Tomte 1 startPos
 let p1Y = totalHeight - 125;
 let p2X= totalWidth-264; // Tomte 2 startPos
@@ -138,14 +145,19 @@ let shootP2 = {
 
 function start()
 {
-rectangle(0,0,totalWidth,totalHeight, "green");//Ritar ut i början
-ctx.drawImage(tomte, p1X, p1Y);//Ritar ut i början
-ctx.drawImage(tomte, p2X, p2Y);//Ritar ut i början
-  	g     = -9.82;
-  	g2     = -9.82;
-  	v0    = 60;
+	let player1s  = 0;
+	let player1g  = -9.82;
+	let player1v0 = 100;
+	let player1t  = 0;
+
+	rectangle(0,0,totalWidth,totalHeight, "white");//Ritar ut i början
+	ctx.drawImage(tomte1, p1X, p1Y);//Ritar ut i början
+	ctx.drawImage(tomte2, p2X, p2Y);//Ritar ut i början
+  	g = -9.82;
+  	g2 = -9.82;
+  	v0 = 60;
   	v02 = 20;
-  	t     = 0;
+  	t = 0;
   	t2 = 0.3;
   	sx = v0Y * t + g*t*t;
 	p2Alpha =((p2Angle/180)*pi);
@@ -153,7 +165,6 @@ ctx.drawImage(tomte, p2X, p2Y);//Ritar ut i början
 	p1Angle = 160;
 	p2Angle = 20;
 }
-
 
 function drawBall(ballObj){
 	if (ballObj.color == "white") {
@@ -169,31 +180,34 @@ function drawBall(ballObj){
 	ballObj.xPos = ballObj.sx + ballObj.x + 32;
 	ballObj.yPos = ballObj.y;
 	
-	circle((ballObj.xPos), (ballObj.yPos), 10, ballObj.color);//Projektilen
+	if (ballObj.color == "white") {
+		ctx.drawImage(Julkula1, ballObj.xPos, ballObj.yPos);
+	} else {
+		ctx.drawImage(Julkula2, ballObj.xPos, ballObj.yPos);
+	}
+	//circle((ballObj.xPos), (ballObj.yPos), 10, ballObj.color);//Projektilen
 
 	
 	ballObj.t += 0.1;
 	if (ballObj.color == "red") {
-		if (ballObj.xPos > p2X && ballObj.xPos < (p2X + tomte.width) && ballObj.yPos > p2Y && ballObj.yPos < (p2Y + 125)) {
+		if (ballObj.xPos >= p2X && ballObj.xPos <= (p2X + tomte2.width) && ballObj.yPos >= p2Y && ballObj.yPos <= (p2Y + 125)) {
 			balls.splice(balls.indexOf(ballObj), 1);
 			if (p2HP > 5) {
 				p2HP -= 6;
 			}else if (0 < p2HP && p2HP < 6) {
 				p2HP=0;
-			} else {
 				return p1Win = true;
 			}
 			let p2HPProcent = p2HP / 100;
 		}
 	}
 	if (ballObj.color == "white") {
-		if (ballObj.xPos > p1X && ballObj.xPos < (p1X + tomte.width) && ballObj.yPos > p1Y && ballObj.yPos < (p1Y + 125)) {
+		if (ballObj.xPos > p1X && ballObj.xPos < (p1X + tomte1.width) && ballObj.yPos > p1Y && ballObj.yPos < (p1Y + 125)) {
 			balls.splice(balls.indexOf(ballObj), 1);
 			if (p1HP > 5) {
 				p1HP -= 6;
 			}else if (0 < p1HP && p1HP < 6) {
 				p1HP=0;
-			} else {
 				return p2Win = true;
 			}
 			let p1HPProcent = p1HP / 100;
@@ -208,12 +222,12 @@ function drawBall(ballObj){
 function update()
 {
 	clearScreen(); //Clearar skärmen mellan varje frame
-	rectangle(0,0,totalWidth,totalHeight,"green");//Min vackra gröna bakgrund
+	rectangle(0,0,totalWidth,totalHeight,"white");//Min vackra gröna bakgrund
 
-	if (moveP1.right && p1X < (totalWidth - tomte.width)) p1X = p1X + 3;// Smooth Movement i sidled för Tomte 1
+	if (moveP1.right && p1X < (totalWidth - tomte1.width)) p1X = p1X + 3;// Smooth Movement i sidled för Tomte 1
 	if (moveP1.left && p1X > 0) p1X = p1X - 3;// Smooth Movement i sidled för Tomte 1
 
-	if (moveP2.right && p2X < (totalWidth - tomte.width)) p2X = p2X + 3;// Smooth Movement i sidled för Tomte 2
+	if (moveP2.right && p2X < (totalWidth - tomte2.width)) p2X = p2X + 3;// Smooth Movement i sidled för Tomte 2
 	if (moveP2.left && p2X > 0) p2X = p2X - 3;// Smooth Movement i sidled för Tomte 2
 
 	if (shootP1.load && p1Power < 99) {
@@ -239,9 +253,8 @@ function update()
 			p2Angle++;
 	}
 	//-------------------------------------
-	
-	ctx.drawImage(tomte, p1X, p1Y);//Tomte 1
-	ctx.drawImage(tomte, p2X, p2Y);//Tomte 2
+	ctx.drawImage(tomte1, p1X, p1Y);//Tomte 1
+	ctx.drawImage(tomte2, p2X, p2Y);//Tomte 2
 
 	let p1HPProcent = p1HP / 100;
 	let p2HPProcent = p2HP / 100;
@@ -253,7 +266,7 @@ function update()
 	p1AimV0Y = p1AimV0 * cos(p1Alpha);
 	p1AimV0X = p1AimV0 * sin(p1Alpha);
 	p1AimSy = p1AimV0Y*t2+(g2*t2*t2)/2;
-  	p1AimY = totalHeight - p1AimSy;
+  	p1AimY = totalHeight - p1AimSy+ p1Y - 575;
   	p1AimSx = p1AimV0X*t2;
 
   	p2AimX = p2X;
@@ -265,21 +278,17 @@ function update()
   	p2AimY = totalHeight - p2AimSy;
   	p2AimSx = p2AimV0X*t2;
 
-
-
-
-
 	balls.forEach(element=> {
 		drawBall(element);
 	});
 	grd1 = ctx.createLinearGradient(p1X-8,p1Y -30, p1X + 72,p1Y - 38);
 	grd1.addColorStop(0,"yellow");
-	grd1.addColorStop(0.3,"orange")
+	grd1.addColorStop(0.3,"orange");
 	grd1.addColorStop(1,"red");
 
 	grd2 = ctx.createLinearGradient(p2X-8,p2Y -30, p2X + 72,p2Y - 38);
 	grd2.addColorStop(0,"yellow");
-	grd2.addColorStop(0.3,"orange")
+	grd2.addColorStop(0.3,"orange");
 	grd2.addColorStop(1,"red");
 
 	ctx.fillStyle = grd1;
@@ -293,22 +302,32 @@ function update()
 	ctx.strokeRect(p2X-10, p2Y-30, 84,12);
 	ctx.fillStyle = grd2;
 	ctx.fillRect(p2X-8, p2Y-28, 80 * p2PowerProcent, 8);
-
+	let p1HPColor;
+	let p2HPColor;
+	if (p1HP <= 25) {
+		p1HPColor = red
+	}else {
+		p1HPColor = green
+	}
+	if (p2HP <= 25) {
+		p2HPColor = red;
+	}else {
+		p2HPColor = green;
+	}
 
 
 	ctx.strokeStyle = black;
 	ctx.lineWidth = 2;
 	ctx.strokeRect(p1X-10, p1Y-15, 84,14);
-	rectangle(p1X-8, p1Y-13, 80 * p1HPProcent, 10, red);
+	rectangle(p1X-8, p1Y-13, 80 * p1HPProcent, 10, p1HPColor);
 	ctx.strokeStyle = black;
 	ctx.lineWidth = 2;
 	ctx.strokeRect(p2X-10, p2Y-15, 84,14);
-	rectangle(p2X-8, p2Y-13, 80* p2HPProcent, 10, red);
+	rectangle(p2X-8, p2Y-13, 80* p2HPProcent, 10, p2HPColor);
 
   	circle(p1AimSx + p1AimX + 32, p1AimY -100, 5, "black");//Tomte 1 aim hjälp
   	circle(p2AimSx + p2AimX + 32, p2AimY -100, 5, "black");//Tomte 1 aim hjälp
-
-	if (p1Win) {
+ 	if (p1Win) {
 		ctx.drawImage(p1Wins, 300, 150);
 		clearInterval(theAnimation);
 	}
@@ -317,6 +336,7 @@ function update()
 		clearInterval(theAnimation);
 	}
 }
+
 document.addEventListener("keydown", function(e){ // Smooth Movement i sidled för Tomte 1
 	switch(e.key){
 		case "d":
@@ -406,13 +426,13 @@ document.addEventListener("keyup", function(e){ // Smooth Movement i sidled och 
 	}
 });
 document.addEventListener("keydown", function (e) { // Skjuter iväg en projektil
-    var code = e.keyCode ? e.keyCode : e.which;
+    let code = e.keyCode ? e.keyCode : e.which;
     if (code === 32) { //space key
 		shootP1.load =  true;
     }
 });
 document.addEventListener("keyup", function (e) { // Skjuter iväg en projektil
-    var code = e.keyCode ? e.keyCode : e.which;
+    let code = e.keyCode ? e.keyCode : e.which;
     if (code === 32) { //space key
 		let ball = {
 			x: p1X,
@@ -433,14 +453,14 @@ document.addEventListener("keyup", function (e) { // Skjuter iväg en projektil
     }
 });
 document.addEventListener("keydown", function (e) { // Skjuter iväg en projektil
-    var code = e.keyCode ? e.keyCode : e.which;
-    if (code === 13) { //shift key
+    let code = e.keyCode ? e.keyCode : e.which;
+    if (code === 13) { //Enter key
     	shootP2.load = true;
     }
 });
 document.addEventListener("keyup", function (e) { // Skjuter iväg en projektil
-    var code = e.keyCode ? e.keyCode : e.which;
-    if (code === 13) { //shift key
+    let code = e.keyCode ? e.keyCode : e.which;
+    if (code === 13) { //Enter key
 		let ball2 = {
 			x: p2X,
 			y: p2Y,
