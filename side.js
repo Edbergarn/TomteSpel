@@ -52,6 +52,8 @@ let tomte1 = document.getElementById("Tomte1");
 let tomte2 = document.getElementById("Tomte2");
 let julkula1 = document.getElementById("Julkula1");
 let julkula2 = document.getElementById("Julkula2");
+let P1Controls = document.getElementById("Player1Controls");
+let P2Controls = document.getElementById("Player2Controls");
 let p1Start = 200; // Tomte 1 startPos
 let p1Y = totalHeight - 125;
 let p2Start= totalWidth-264; // Tomte 2 startPos
@@ -423,6 +425,8 @@ function update()
 		ctx.drawImage(p2Wins, 510, 240);
 		clearInterval(theAnimation);
 	}
+	ctx.drawImage(P1Controls, 30, 30);
+	ctx.drawImage(P2Controls, totalWidth-180, 30);
 }
 
 document.addEventListener("keydown", function(e){ // Smooth Movement i sidled f√∂r Tomte 1
@@ -439,16 +443,16 @@ document.addEventListener("keydown", function(e){ // Smooth Movement i sidled f√
 		case "A":
 		moveP1.left = true;
 		break;
-		case "e":
+		case "b":
 		aimP1.right = true;
 		break;
-		case "q":
+		case "v":
 		aimP1.left = true;
 		break;
-		case "E":
+		case "B":
 		aimP1.right = true;
 		break;
-		case "Q":
+		case "V":
 		aimP1.left = true;
 		break;
 		case "f":
@@ -473,16 +477,16 @@ document.addEventListener("keyup", function(e){ // Smooth Movement i sidled och 
 		case "A":
 		moveP1.left = false;
 		break;
-		case "e":
+		case "b":
 		aimP1.right = false;
 		break;
-		case "q":
+		case "v":
 		aimP1.left = false;
 		break;
-		case "E":
+		case "B":
 		aimP1.right = false;
 		break;
-		case "Q":
+		case "V":
 		aimP1.left = false;
 		break;
 	}
