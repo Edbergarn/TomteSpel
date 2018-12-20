@@ -1,7 +1,4 @@
-let player1y;
-let player1g  = -9.82;
-let player1v0 = 40;
-let player1t  = 0;
+
 //Colors-------------------------
 red       = "rgb(255, 0, 0)";
 green     = "rgb(0, 255, 0)";
@@ -55,9 +52,9 @@ let tomte1 = document.getElementById("Tomte1");
 let tomte2 = document.getElementById("Tomte2");
 let julkula1 = document.getElementById("Julkula1");
 let julkula2 = document.getElementById("Julkula2");
-let p1X = 200; // Tomte 1 startPos
+let p1Start = 200; // Tomte 1 startPos
 let p1Y = totalHeight - 125;
-let p2X= totalWidth-264; // Tomte 2 startPos
+let p2Start= totalWidth-264; // Tomte 2 startPos
 let p2Y=totalHeight - 125;
 let v0Y; // Vinklar
 let v0X; // Vinklar
@@ -68,6 +65,7 @@ let sx; // Avstånd från skjutpunkt i Xled
 let xPos; // Bollens X position
 let yPos; // Bollens Y position
 let balls =[]; // Array med bollar
+let players =[];// Array med players
 let p1HP = 100;
 let p2HP = 100;
 let p1Win = false;
@@ -93,6 +91,7 @@ let p2Power = 20;
 let p1PowerProcent;
 let p2PowerProcent;
 let grd;
+let player1y;
 
 
 //-------Irrelevant-------------------------------------
@@ -176,7 +175,6 @@ function start()
 	p1Angle = 160;
 	p2Angle = 20;
 }
-
 function drawBall(ballObj){
 	if (ballObj.color == "white") {
 	ballObj.v0X = cos(ballObj.p2Alpha) * ballObj.v0 * -1;
@@ -186,7 +184,12 @@ function drawBall(ballObj){
 	ballObj.v0Y = sin(ballObj.p1Alpha) * ballObj.v0;
 	}
 	ballObj.sy = ballObj.v0Y*ballObj.t+(ballObj.g*(ballObj.t*ballObj.t))/2;
-	ballObj.y = totalHeight - ballObj.sy - 100;
+	if (ballObj.color == "white") {
+		ballObj.y = totalHeight - ballObj.sy - (totalHeight - ballObj.shootY);
+	}else if(ballObj.color == "red"){
+		ballObj.y = totalHeight - ballObj.sy - (totalHeight - ballObj.shootY);
+
+	}
 	ballObj.sx = ballObj.v0X*ballObj.t;
 	ballObj.xPos = ballObj.sx + ballObj.x + 32;
 	ballObj.yPos = ballObj.y;
@@ -231,7 +234,7 @@ function drawBall(ballObj){
 } 
 
  let player1 = {
- 	x: p1X,
+ 	x: p1Start,
  	y: p1Y,
  	imgFile: tomte1,
  	width: 64,	
@@ -241,8 +244,9 @@ function drawBall(ballObj){
  	velX: 0,
  	jumping: false
  }
+ players.push(player1);
   let player2 = {
- 	x: p2X,
+ 	x: p2Start,
  	y: p2Y,
  	imgFile: tomte2,
  	width: 64,	
@@ -252,6 +256,7 @@ function drawBall(ballObj){
  	velX: 0,
  	jumping: false
  }
+ players.push(player2);
 let keys = [];
 let friction = 0.8;
 let gravity = 0.2;
@@ -421,7 +426,6 @@ function update()
 }
 
 document.addEventListener("keydown", function(e){ // Smooth Movement i sidled för Tomte 1
-	console.log(e.key);
 	switch(e.key){
 		case "d":
 		moveP1.right = true;
@@ -557,8 +561,7 @@ document.addEventListener("keyup", function (e) { // Skjuter iväg en projektil
 		let ball = {
 			x: player1.x,
 			y: player1.y,
-			p2X: p2X,
-			p2Y: p2Y,
+			shootY: player1.y,
 			g: -9.8,
 			v0: (p1Power),
 			p1Alpha: ((p1Angle / 180)* pi),
@@ -584,8 +587,7 @@ document.addEventListener("keyup", function (e) { // Skjuter iväg en projektil
 		let ball2 = {
 			x: player2.x,
 			y: player1.y,
-			p1X: p1X,
-			p1Y: p1Y,
+			shootY: player2.y,
 			g: -9.8,
 			v0: (p2Power),
 			p2Alpha: ((p2Angle/180)*pi),
