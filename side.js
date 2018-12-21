@@ -54,6 +54,7 @@ let julkula1 = document.getElementById("Julkula1");
 let julkula2 = document.getElementById("Julkula2");
 let P1Controls = document.getElementById("Player1Controls");
 let P2Controls = document.getElementById("Player2Controls");
+let restart = document.getElementById("restart");
 let p1Start = 200; // Tomte 1 startPos
 let p1Y = totalHeight - 125;
 let p2Start= totalWidth-264; // Tomte 2 startPos
@@ -427,6 +428,7 @@ function update()
 	}
 	ctx.drawImage(P1Controls, 30, 30);
 	ctx.drawImage(P2Controls, totalWidth-180, 30);
+	ctx.drawImage(restart, ((totalWidth/2)-100), 30);
 }
 
 document.addEventListener("keydown", function(e){ // Smooth Movement i sidled för Tomte 1
