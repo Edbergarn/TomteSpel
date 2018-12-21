@@ -507,16 +507,16 @@ document.addEventListener("keydown", function(e){ // Smooth Movement i sidled oc
 		case "4":
 		moveP2.left = true;
 		break;
-		case "9":
+		case "p":
 		aimP2.right = true;
 		break;
-		case "7":
+		case "o":
 		aimP2.left = true;
 		break;
-		case "PageUp":
+		case "P":
 		aimP2.right = true;
 		break;
-		case "Home":
+		case "O":
 		aimP2.left = true;
 		break;
 	}
@@ -541,16 +541,16 @@ document.addEventListener("keyup", function(e){ // Smooth Movement i sidled och 
 		case "4":
 		moveP2.left = false;
 		break;
-		case "9":
+		case "p":
 		aimP2.right = false;
 		break;
-		case "7":
+		case "o":
 		aimP2.left = false;
 		break;
-		case "PageUp":
+		case "P":
 		aimP2.right = false;
 		break;
-		case "Home":
+		case "O":
 		aimP2.left = false;
 		break;
 	}
@@ -583,13 +583,13 @@ document.addEventListener("keyup", function (e) { // Skjuter iväg en projektil
 });
 document.addEventListener("keydown", function (e) { // Skjuter iväg en projektil
     let code = e.keyCode ? e.keyCode : e.which;
-    if (code === Num0 || code === 45) { //Enter key
+    if (code === 13) { //Enter key
     	shootP2.load = true;
     }
 });
 document.addEventListener("keyup", function (e) { // Skjuter iväg en projektil
     let code = e.keyCode ? e.keyCode : e.which;
-    if (code === Num0 || code === 45) { //Enter key
+    if (code === 13) { //Enter key
 		let ball2 = {
 			x: player2.x,
 			y: player1.y,
